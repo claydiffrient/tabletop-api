@@ -1,17 +1,19 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var uniqueValidator = require('mongoose-unique-validator');
 
 var gameSchema = new Schema({
-  title: String,
+  title: { type: String, unique: true },
   owners: [String],
   available: Boolean,
-  bggId: Number,
-  title: String,
+  bggId: { type: Number, unique: true },
   thumbnail: String,
   numPlayers: String,
   playTime: Number,
   description: String
 });
+
+gameSchema.plugin(uniqueValidator);
 
 module.exports = mongoose.model('Game', gameSchema);
 
