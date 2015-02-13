@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-var debug = require('debug')('testing-express');
+var debug = require('debug')('tabletop-api');
 var app = require('../app');
 
 app.set('port', process.env.PORT || 3000);
