@@ -12,4 +12,22 @@ router.get('/', function(req, res) {
   });
 });
 
+
+/* POST Create a vote */
+router.post('/', function(req, res) {
+  var vote = new Vote(req.body);
+  console.log(req.body);
+  vote.save(function (err, savedVote) {
+    if (err) {
+      return res.send(err);
+    }
+    Vote.populate(savedVote, {path:'game'},function (err, populated) {
+      if (err) {
+        return res.send(err);
+      }
+      res.send(populated);
+    });
+  })
+});
+
 module.exports = router;

@@ -4,7 +4,7 @@ var uniqueValidator = require('mongoose-unique-validator');
 
 var voteSchema = new Schema({
   date: Date,
-  gameId: {type: Schema.Types.ObjectId, ref: 'Game'}
+  game: {type: Schema.Types.ObjectId, ref: 'Game'}
 });
 
 module.exports = mongoose.model('Vote', voteSchema);
