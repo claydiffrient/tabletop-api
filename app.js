@@ -7,6 +7,8 @@ var mongoose = require('mongoose');
 
 var db = require('./config/db');
 
+var requireAuthentication = require('./utils/requireAuthentication');
+
 var routes = require('./routes/index');
 var games = require('./routes/games');
 var votes = require('./routes/votes');
@@ -32,9 +34,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.all('/v1/*', requireAuthentication);
+
 app.use('/', routes);
-app.use('/games', games);
-app.use('/votes', votes);
+app.use('/v1/games', games);
+app.use('/v1/votes', votes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
