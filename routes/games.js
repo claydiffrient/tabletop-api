@@ -42,7 +42,7 @@ router.get('/:id', function (req, res) {
   })
 });
 
-/* POST Enter a game */
+/* POST Create a new game */
 router.post('/', function(req, res) {
   if (req.body.bggId) {
     bggLookup(req.body.bggId, function (err, response) {
@@ -63,6 +63,26 @@ router.post('/', function(req, res) {
   }
 });
 
+
+router.put('/:id', function (req, res) {
+  var updateObj = req.body;
+
+  // Don't allow these because they are unique
+  // Changing one of these requires deleting and creating
+  // the game.
+  delete updateObj._id;
+  delete updateObj.title;
+  delete updateObj.bggId;
+
+  Game.findByIdAndUpdate(req.params.id, {
+    $set: updateObj
+  }, function (err, updatedGame) {
+    if (err) {
+      res.send(err);
+    }
+    res.send(updatedGame);
+  });
+});
 
 
 
