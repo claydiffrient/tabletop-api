@@ -24,7 +24,7 @@ router.get('/', function(req, res) {
     }
   }
 
-  voteQuery = voteQuery.populate('game');
+  voteQuery = voteQuery.populate('game', 'title');
 
   if (qGame) {
     voteQuery = voteQuery.where({
