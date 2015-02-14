@@ -32,6 +32,16 @@ router.get('/', function(req, res) {
   });
 });
 
+/* GET Get one game */
+router.get('/:id', function (req, res) {
+  Game.findById(req.params.id, function (err, game) {
+    if (err) {
+      return res.send(err);
+    }
+    res.json(game);
+  })
+});
+
 /* POST Enter a game */
 router.post('/', function(req, res) {
   if (req.body.bggId) {
@@ -51,7 +61,9 @@ router.post('/', function(req, res) {
     console.log("here2");
     createGame(req.body, res);
   }
-
 });
+
+
+
 
 module.exports = router;
