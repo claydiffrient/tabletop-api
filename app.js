@@ -9,6 +9,7 @@ var db = require('./config/db');
 
 var routes = require('./routes/index');
 var games = require('./routes/games');
+var votes = require('./routes/votes');
 
 mongoose.connect(db.url);
 
@@ -33,6 +34,7 @@ app.use(cookieParser());
 
 app.use('/', routes);
 app.use('/games', games);
+app.use('/votes', votes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

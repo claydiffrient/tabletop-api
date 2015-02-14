@@ -5,8 +5,8 @@ var uniqueValidator = require('mongoose-unique-validator');
 var gameSchema = new Schema({
   title: { type: String, unique: true },
   owners: [{
-    name: String
-    slackId: String
+    name: String,
+    slackId: String,
     available: Boolean
   }],
   bggId: { type: Number, unique: true },
