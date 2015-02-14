@@ -1,14 +1,43 @@
 var Vote = require('../models/vote');
 var express = require('express');
 var router = express.Router();
+var moment = require('moment');
+
+var today = moment().startOf('day');
+var tomorrow = moment(today).add(1, 'days');
 
 /* GET List all votes */
+/* Include ?date=YYYY-MM-DD to get only votes for that day */
+/* Include ?game=gameId to get only votes for that game */
 router.get('/', function(req, res) {
-  Vote.find(function (err, votes) {
-    if (err) {
-      return res.send(err);
+  var voteQuery = Vote.find();
+  var qDate = req.query.date;
+  var qGame = req.query.game;
+  if (qDate) {
+    if (qDate === 'today') {
+      voteQuery = voteQuery.where('date').gt(today).lt(tomorrow);
+    } else {
+      var day = moment(qDate).startOf('day');
+      var nextDay = moment(day).add(1, 'days');
+
+      voteQuery = voteQuery.where('date').gt(day).lt(nextDay);
     }
-    res.json(votes);
+  }
+
+  voteQuery = voteQuery.populate('game');
+
+  if (qGame) {
+    voteQuery = voteQuery.where({
+      game: qGame
+    });
+  }
+
+  voteQuery.exec(function (err, votes) {
+            if (err) {
+              return res.send(err);
+            }
+            console.log(votes);
+            res.json(votes);
   });
 });
 
