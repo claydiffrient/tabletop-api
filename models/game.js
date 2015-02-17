@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 var uniqueValidator = require('mongoose-unique-validator');
 
 var gameSchema = new Schema({
-  title: { type: String, unique: true },
+  title: { type: String, unique: true, required:true },
   owners: [{
     name: String,
     slackId: String,
