@@ -2,6 +2,7 @@ var Game = require('../models/game');
 var bggLookup = require('../utils/bggLookup');
 var express = require('express');
 var router = express.Router();
+var _ = require('lodash');
 
 /////////
 /// Utils
@@ -39,6 +40,29 @@ router.get('/:id', function (req, res) {
       return res.send(err);
     }
     res.json(game);
+  })
+});
+
+/* GET Get owners for one game */
+router.get('/:id/owners', function (req, res) {
+  Game.findById(req.params.id, function (err, game) {
+    if (err) {
+      return res.send(err);
+    }
+    res.json(game.owners);
+  })
+});
+
+/* GET Get single owner for one game */
+router.get('/:id/owners/:ownerId', function (req, res) {
+  Game.findById(req.params.id, function (err, game) {
+    if (err) {
+      return res.send(err);
+    }
+    var toReturn = _.find(game.owners, function (x) {
+      return x._id == req.params.ownerId
+    });
+    res.json(toReturn);
   })
 });
 
