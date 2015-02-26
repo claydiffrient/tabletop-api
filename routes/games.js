@@ -108,6 +108,34 @@ router.put('/:id', function (req, res) {
   });
 });
 
+router.put('/:id/owners/:ownerId', function (req, res) {
+  var updateObj = req.body;
+
+  delete updateObj._id;
+
+
+  Game.findById(req.params.id, function (err, game) {
+    if (err) {
+      res.send(err);
+    }
+
+    var owner = game.owners.id(req.params.ownerId)
+
+    for (var key in updateObj) {
+      owner[key] = updateObj[key];
+    }
+
+    owner.save(function (err) {
+      if (err) {
+        res.send(err);
+      }
+      res.send(owner);
+    });
+
+
+  });
+});
+
 
 
 module.exports = router;
